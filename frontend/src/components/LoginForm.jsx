@@ -1,12 +1,32 @@
-import { useState } from "react";
+import { use, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ApiService } from "../api/api";
 
 function LoginForm() {
    const [showNotification, setShowNotification] = useState(false);
+   const [username, setUsername] = useState("");
+   const [password, setPassword] = useState("");
+   const [error, setError] = useState("");
+   const navigate = useNavigate();
 
    const handleUnavailableClick = (e) => {
       e.preventDefault();
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 4000);
+   };
+
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+      setError("");
+
+      try {
+         const res = await ApiService.login(username, password);
+
+         localStorage.setItem("jwt", res.data.token);
+         navigate("/hello");
+      } catch(err) {
+         setError("Invalid credentials or server error");
+      }
    };
 
    return (
@@ -25,7 +45,7 @@ function LoginForm() {
             <p className="text-gray-500 text-sm">Please sign in to your account</p>
          </div>
 
-         <form className="space-y-6">
+         <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-2">
                <label htmlFor="username" className="block text-white text-sm font-medium">
                   Username
@@ -35,6 +55,8 @@ function LoginForm() {
                   type="text"
                   className="w-full px-4 py-3 bg-black border border-gray-400 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-colors"
                   placeholder="Enter your username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                />
             </div>
 
@@ -47,6 +69,8 @@ function LoginForm() {
                   type="password"
                   className="w-full px-4 py-3 bg-black border border-gray-400 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-colors"
                   placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                />
             </div>
 
@@ -70,11 +94,13 @@ function LoginForm() {
 
             <button
                type="submit"
-               className="w-full bg-white text-black py-3 px-4 rounded-lg font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black transition-colors"
+               className="w-full bg-white text-black py-3 px-4 rounded-lg font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black transition-colors cursor-pointer"
             >
                Sign In
             </button>
          </form>
+
+         {error && <p className="text-red-600 font-light text-center mt-4">{error}</p>}
 
          <div className="mt-6 text-center">
             <p className="text-gray-400 text-sm">
