@@ -1,5 +1,6 @@
 import LoginForm from "../components/LoginForm"
-import LoginHeader from "../components/LoginHeader"
+import LoginHeader from "../components/Header"
+import Footer from "../components/Footer"
 import { logo } from "../assets/images"
 
 function LoginPage() {
@@ -19,11 +20,7 @@ function LoginPage() {
 
          <LoginForm />
 
-         <footer className="absolute bottom-0 right-1/2 py-4 text-center">
-            <p className="text-gray-600 text-sm">
-               © {new Date().getFullYear()} DJILI Mohamed Amine. All rights reserved.
-            </p>
-         </footer>
+         <Footer position="right-1/2" />
       </div>
    )
 }
