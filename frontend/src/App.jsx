@@ -3,13 +3,23 @@ import LoginPage from './pages/LoginPage'
 import HelloPage from './pages/HelloPage'
 import NotAuthorized from "./pages/NotAuthorized";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 
 function App() {
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+
+        <Route 
+          path="/"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+        
         <Route 
           path="/hello"
           element={
@@ -18,7 +28,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+        
         <Route path="/not-authorized" element={<NotAuthorized />} />
+      
       </Routes>
     </Router>
   )
