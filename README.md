@@ -88,7 +88,7 @@ The login page in all its glory. Type the magic words, get the golden ticket.
 ### Backend Setup
 ```bash
 # Clone this bad boy
-git clone https://github.com/SieGer05/jwt-auth-fullstack.git>
+git clone https://github.com/SieGer05/jwt-auth-fullstack.git
 
 # Open in your favorite IDE (or IntelliJ, we don't judge... much)
 # Make sure you've got Java 21 installed
